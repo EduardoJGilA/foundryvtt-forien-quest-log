@@ -50,7 +50,19 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          width: 700,
          height: 480
       },
-      tabs: [{ navSelector: '.log-tabs', contentSelector: '.log-body', initial: 'active' }]
+   };
+
+   static TABS = {
+      primary: {
+         tabs: [
+            { id: 'available' },
+            { id: 'active' },
+            { id: 'completed' },
+            { id: 'failed' },
+            { id: 'inactive' }
+         ],
+         initial: 'active'
+      }
    };
 
    static PARTS = {
