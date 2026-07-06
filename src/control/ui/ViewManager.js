@@ -240,9 +240,9 @@ export class ViewManager
       if (swapTab)
       {
          const questLog = ViewManager.questLog;
-         if (questLog._tabs[0] && quest.status !== questLog?._tabs[0]?.active && null !== questLog?._tabs[0]?._nav)
+         if (questLog?.rendered && quest.status !== questLog.tabGroups?.primary)
          {
-            questLog._tabs[0].activate(quest.status);
+            questLog.changeTab(quest.status, 'primary');
          }
       }
 

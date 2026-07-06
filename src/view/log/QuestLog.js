@@ -174,8 +174,10 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          menuItemsOther.push(contextOptions.copyQuestId);
       }
 
-      new FQLContextMenu(html, '.tab:not([data-tab="active"]) .drag-quest', menuItemsOther, { fixed: true });
-      new FQLContextMenu(html, '.tab[data-tab="active"] .drag-quest', menuItemsActive, { fixed: true });
+      const element = html instanceof HTMLElement ? html : html?.[0];
+
+      new FQLContextMenu(element, '.tab:not([data-tab="active"]) .drag-quest', menuItemsOther, { fixed: true });
+      new FQLContextMenu(element, '.tab[data-tab="active"] .drag-quest', menuItemsActive, { fixed: true });
    }
 
    /**

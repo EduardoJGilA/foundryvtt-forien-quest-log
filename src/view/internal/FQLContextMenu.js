@@ -9,6 +9,7 @@ export class FQLContextMenu extends foundry.applications.ux.ContextMenu
     */
    constructor(element, selector, menuItems, options = {})
    {
-      super(element, selector, menuItems, options);
+      // v13+: opt out of deprecated jQuery transaction; callbacks receive HTMLElement references.
+      super(element, selector, menuItems, { jQuery: false, ...options });
    }
 }
