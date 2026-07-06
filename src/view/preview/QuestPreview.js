@@ -15,12 +15,12 @@ import {
    jquery,
    settings }                 from '../../model/constants.js';
 
-const { HandlebarsApplicationV2 } = foundry.applications.api;
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
  * QuestPreview is the main app / window of FQL for modifying individual Quest data.
  */
-export class QuestPreview extends HandlebarsApplicationV2
+export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 {
    /**
     * Stores the quest being displayed / edited.

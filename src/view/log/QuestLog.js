@@ -18,12 +18,12 @@ import {
    settings }           from '../../model/constants.js';
 import * as contextOptions from "../internal/context-options.js";
 
-const { HandlebarsApplicationV2 } = foundry.applications.api;
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
  * Provides the main quest log app which shows the quests separated by status either with bookmark or classic tabs.
  */
-export class QuestLog extends HandlebarsApplicationV2
+export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 {
    /**
     * @inheritDoc
