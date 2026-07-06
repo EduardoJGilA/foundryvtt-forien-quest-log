@@ -145,7 +145,7 @@ export class FQLHooks
          "forien-quest-log.quest": QuestPageDataModel
       });
 
-      DocumentSheets.registerSheet(JournalEntryPage, "forien-quest-log", QuestPageSheet, {
+      foundry.applications.apps.DocumentSheetConfig.registerSheet(JournalEntryPage, "forien-quest-log", QuestPageSheet, {
          types: ["forien-quest-log.quest"],
          makeDefault: true
       });
