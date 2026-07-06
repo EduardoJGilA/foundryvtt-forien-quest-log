@@ -4,3 +4,4 @@ lang/untranslated.json
 node_modules/
 foundry.js
 package-lock.json
+.agents

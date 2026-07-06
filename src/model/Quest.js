@@ -9,27 +9,16 @@ import {
    questStatus,
    settings }                 from './constants.js';
 
-/**
- * Stores and makes accessible the minimum amount of data that defines a quest. A Quest is loaded from the backing
- * JournalEntry and has the JournalEntry stored for the ability to perform permissions checks. Please see QuestDB
- * as when a Quest is loaded it is stored in a QuestEntry which also contains the enriched quest data for display
- * in Handlebars templates along with caching of several of the methods available in Quest for fast sorting.
- *
- * {@link Quest.giverFromQuest} / {@link Quest.giverFromUUID} are used in {@link HandlerDetails} to look up
- * and store the quest giver image / name in {@link Quest.giverData} when a quest giver is set.
- *
- * @see QuestDB
- * @see QuestEntry
- */
-export class Quest
+import { QuestDataModel }     from './QuestDataModel.js';
+import { Task }               from './Task.js';
+import { Reward }             from './Reward.js';
+
+export class Quest extends QuestDataModel
 {
    /**
-    * Stores the sheet class for Quest which is {@link QuestPreview}. This class / sheet is used to render Quest.
-    * While directly accessible from Quest the main way a QuestPreview is shown is through {@link QuestAPI.open} which
-    * provides the entry point for external API access and is also used internally when opening a quest.
+    * Stores the sheet class for Quest.
     *
     * @type {typeof Application}
-    * @see Quest.sheet
     */
    static #SheetClass;
 
@@ -42,9 +31,6 @@ export class Quest
 
    /** @type {string | null} */
    #id;
-
-   /** @type {string} */
-   #name;
 
    /**
     * Lookup the Quest giver by UUID and return the data stored in {@link Quest.giverData}.
@@ -139,10 +125,8 @@ export class Quest
     */
    constructor(data = {}, entry = null)
    {
+      super(data);
       this.#id = entry !== null ? entry.id : null;
-
-      this.initData(data);
-
       this.#entry = entry;
 
       if (this.#entry && this.#id !== null)
@@ -309,34 +293,13 @@ export class Quest
    }
 
    /**
-    * Returns whether this quest is set as the primary quest.
+    * Returns whether this quest is under primary settings.
     *
     * @returns {boolean} Primary quest state.
     */
    get isPrimary()
    {
       return this.#id === game.settings.get(constants.moduleName, settings.primaryQuest);
-   }
-
-   /**
-    * Gets the name of the quest.
-    *
-    * @returns {string} Quest name.
-    */
-   get name()
-   {
-      return this.#name;
-   }
-
-   /**
-    * Sets the name of the quest.
-    *
-    * @param {string}   value - The new name.
-    */
-   set name(value)
-   {
-      this.#name = typeof value === 'string' && value.length > 0 ? value :
-       game.i18n.localize('ForienQuestLog.API.QuestDB.Labels.NewQuest');
    }
 
    /**
@@ -448,150 +411,6 @@ export class Quest
    }
 
    /**
-    * Normally would be in constructor(), but is extracted for usage in different methods as well
-    *
-    * @param {QuestData}   data - The serialized Quest data to initialize.
-    */
-   initData(data)
-   {
-      this.name = data.name || game.i18n.localize('ForienQuestLog.API.QuestDB.Labels.NewQuest');
-
-      /**
-       * @type {string}
-       */
-      this.status = data.status || questStatus.inactive;
-
-      /**
-       * @type {string|null}
-       */
-      this.giver = data.giver || null;
-
-      /**
-       * @type {object|null}
-       */
-      this.giverData = data.giverData || null;
-
-      /**
-       * @type {string}
-       */
-      this.description = data.description || '';
-
-      /**
-       * @type {string}
-       */
-      this.gmnotes = data.gmnotes || '';
-
-      /**
-       * @type {string}
-       */
-      this.image = data.image || 'actor';
-
-      /**
-       * @type {string}
-       */
-      this.giverName = data.giverName || 'actor';
-
-      /**
-       * @type {string}
-       */
-      this.splash = data.splash || '';
-
-      /**
-       * @type {string}
-       */
-      this.splashPos = data.splashPos || 'center';
-
-      /**
-       * @type {boolean}
-       */
-      this.splashAsIcon = typeof data.splashAsIcon === 'boolean' ? data.splashAsIcon : false;
-
-      /**
-       * @type {string|null}
-       */
-      this.location = data.location || null;
-
-      /**
-       * @type {string}
-       */
-      this.playernotes = data.playernotes || '';
-
-      /**
-       * @type {number}
-       */
-      this.priority = data.priority || 0;
-
-      /**
-       * @type {string|null}
-       */
-      this.type = data.type || null;
-
-      /**
-       * @type {string|null}
-       */
-      this.parent = data.parent || null;
-
-      /**
-       * @type {string[]}
-       */
-      this.subquests = data.subquests || [];
-
-      /**
-       * @type {Task[]}
-       */
-      this.tasks = Array.isArray(data.tasks) ? data.tasks.map((task) => new Task(task)) : [];
-
-      /**
-       * @type {Reward[]}
-       */
-      this.rewards = Array.isArray(data.rewards) ? data.rewards.map((reward) => new Reward(reward)) : [];
-
-      // Sanity check. If status is incorrect set it to inactive.
-      if (!questStatus[this.status]) { this.status = questStatus.inactive; }
-
-      if (typeof data.date === 'object')
-      {
-         /**
-          * Provides timestamps for quest create, start, end.
-          *
-          * @type {{start: (number|null), create: (number|null), end: (number|null)}}
-          */
-         this.date = {
-            create: typeof data.date.create === 'number' ? data.date.create : null,
-            start: typeof data.date.start === 'number' ? data.date.start : null,
-            end: typeof data.date.end === 'number' ? data.date.end : null
-         };
-      }
-      else
-      {
-         this.date = {
-            create: Date.now(),
-         };
-
-         switch (this.status)
-         {
-            case questStatus.active:
-               this.date.start = Date.now();
-               this.date.end = null;
-               break;
-
-            case questStatus.completed:
-            case questStatus.failed:
-               this.date.start = Date.now();
-               this.date.end = Date.now();
-               break;
-
-            case questStatus.inactive:
-            case questStatus.available:
-            default:
-               this.date.start = null;
-               this.date.end = null;
-               break;
-         }
-      }
-   }
-
-   /**
     * Deletes Reward from Quest.
     *
     * @param {string} uuidv4 - The UUIDv4 associated with a Reward.
@@ -609,7 +428,7 @@ export class Quest
     */
    removeSubquest(questId)
    {
-      this.subquests = this.subquests.filter((id) => id !== questId);
+      this.updateSource({ subquests: this.subquests.filter((id) => id !== questId) });
    }
 
    /**
@@ -630,10 +449,12 @@ export class Quest
     */
    resetGiver()
    {
-      this.giver = null;
-      this.image = 'actor';
-      this.giverData = null;
-      this.giverName = 'actor';
+      this.updateSource({
+         giver: null,
+         image: 'actor',
+         giverData: null,
+         giverName: 'actor'
+      });
    }
 
    /**
@@ -649,9 +470,9 @@ export class Quest
       // If the entry doesn't exist or the user can't update the journal entry via ownership then early out.
       if (!entry || !this.canUserUpdate) { return; }
 
-      // Save Quest JSON, but also potentially update the backing JournalEntry folder name.
+      // Save Quest JSON
       const update = {
-         name: typeof this.#name === 'string' && this.#name.length > 0 ? this.#name :
+         name: typeof this.name === 'string' && this.name.length > 0 ? this.name :
           game.i18n.localize('ForienQuestLog.API.QuestDB.Labels.NewQuest'),
          flags: {
             [constants.moduleName]: { json: this.toJSON() }
@@ -681,28 +502,33 @@ export class Quest
    {
       if (!this.entry || !questStatus[target]) { return; }
 
-      this.status = target;
+      const dateUpdates = { start: this.date.start, end: this.date.end };
 
       // Update the tracked date data based on status.
-      switch (this.status)
+      switch (target)
       {
          case questStatus.active:
-            this.date.start = Date.now();
-            this.date.end = null;
+            dateUpdates.start = Date.now();
+            dateUpdates.end = null;
             break;
 
          case questStatus.completed:
          case questStatus.failed:
-            this.date.end = Date.now();
+            dateUpdates.end = Date.now();
             break;
 
          case questStatus.inactive:
          case questStatus.available:
          default:
-            this.date.start = null;
-            this.date.end = null;
+            dateUpdates.start = null;
+            dateUpdates.end = null;
             break;
       }
+
+      this.updateSource({
+         status: target,
+         date: dateUpdates
+      });
 
       // Potentially reset any tracked primary quest when the status is no longer active.
       if (this.status !== questStatus.active)
@@ -765,32 +591,11 @@ export class Quest
    }
 
    /**
-    * @returns {QuestData} The serialized JSON for this Quest.
+    * @returns {object} The serialized JSON object for this Quest.
     */
    toJSON()
    {
-      return {
-         name: this.#name,
-         status: this.status,
-         giver: this.giver,
-         giverData: this.giverData,
-         description: this.description,
-         gmnotes: this.gmnotes,
-         playernotes: this.playernotes,
-         image: this.image,
-         giverName: this.giverName,
-         splash: this.splash,
-         splashPos: this.splashPos,
-         splashAsIcon: this.splashAsIcon,
-         location: this.location,
-         priority: this.priority,
-         type: this.type,
-         parent: this.parent,
-         subquests: this.subquests,
-         tasks: this.tasks,
-         rewards: this.rewards,
-         date: this.date
-      };
+      return this.toObject();
    }
 
    /**
@@ -798,13 +603,13 @@ export class Quest
     */
    toggleImage()
    {
-      this.image = this.image === 'actor' ? 'token' : 'actor';
+      this.updateSource({
+         image: this.image === 'actor' ? 'token' : 'actor'
+      });
    }
 
-// Document simulation -----------------------------------------------------------------------------------------------
-
    /**
-    * The canonical name of this Document type, for example "Actor".
+    * The canonical name of this Document type.
     *
     * @returns {string} The document name.
     */
@@ -814,7 +619,7 @@ export class Quest
    }
 
    /**
-    * The canonical name of this Document type, for example "Actor".
+    * The canonical name of this Document type.
     *
     * @returns {string} The document name.
     */
@@ -835,294 +640,3 @@ export class Quest
       return SheetClass ? new SheetClass(this) : void 0;
    }
 }
-
-/**
- * Rewards can be either an item from a Foundry VTT compendium / world item or be an abstract reward. It should be
- * noted that FVTT item data will have a Foundry VTT UUID, but abstract rewards entered by the user will have a UUIDv4
- * generated for them. This UUID regardless of type is accessible in `this.uuid`.
- *
- */
-export class Reward
-{
-   /**
-    * @param {object}   data - Serialized reward data.
-    */
-   constructor(data = {})
-   {
-      /**
-       * @type {string|null}
-       */
-      this.type = data.type || null;
-
-      /**
-       * @type {object}
-       */
-      this.data = data.data || {};
-
-      /**
-       * @type {boolean}
-       */
-      this.hidden = typeof data.hidden === 'boolean' ? data.hidden : false;
-
-      /**
-       * @type {boolean}
-       */
-      this.locked = typeof data.locked === 'boolean' ? data.locked : true;
-
-      /**
-       * @type {string}
-       */
-      this.uuidv4 = data.uuidv4 || Utils.uuidv4();
-   }
-
-   /**
-    * Returns the name of the reward.
-    *
-    * @returns {string} Reward name.
-    */
-   get name() { return this.data.name; }
-
-   /**
-    * Returns the Foundry UUID associated with this reward. Abstract rewards do not have a Foundry UUID.
-    *
-    * @returns {string|void} The Foundry UUID.
-    */
-   get uuid() { return this.data.uuid; }
-
-   /**
-    * Serializes this reward.
-    *
-    * @returns {object} A JSON object.
-    */
-   toJSON()
-   {
-      return JSON.parse(JSON.stringify({
-         type: this.type,
-         data: this.data,
-         hidden: this.hidden,
-         locked: this.locked,
-         uuidv4: this.uuidv4
-      }));
-   }
-
-   /**
-    * Toggles the locked status.
-    *
-    * @returns {boolean} Current locked status.
-    */
-   toggleLocked()
-   {
-      this.locked = !this.locked;
-      return this.locked;
-   }
-
-   /**
-    * Toggles the hidden status.
-    *
-    * @returns {boolean} Current hidden status.
-    */
-   toggleVisible()
-   {
-      this.hidden = !this.hidden;
-      return this.hidden;
-   }
-}
-
-/**
- * Encapsulates an objective / task.
- */
-export class Task
-{
-   /**
-    * @param {object}   data - The task data.
-    */
-   constructor(data = {})
-   {
-      /**
-       * @type {string|null}
-       */
-      this.name = data.name || null;
-
-      /**
-       * @type {boolean}
-       */
-      this.completed = data.completed || false;
-
-      /**
-       * @type {boolean}
-       */
-      this.failed = data.failed || false;
-
-      /**
-       * @type {boolean}
-       */
-      this.hidden = data.hidden || false;
-
-      /**
-       * @type {string}
-       */
-      this.uuidv4 = data.uuidv4 || Utils.uuidv4();
-   }
-
-   /**
-    * Gets the current CSS class based on state.
-    *
-    * @returns {string} CSS class
-    */
-   get state()
-   {
-      if (this.completed)
-      {
-         return 'check-square';
-      }
-      else if (this.failed)
-      {
-         return 'minus-square';
-      }
-      return 'square';
-   }
-
-   /**
-    * Serializes the task.
-    *
-    * @returns {object} JSON object.
-    */
-   toJSON()
-   {
-      return JSON.parse(JSON.stringify({
-         name: this.name,
-         completed: this.completed,
-         failed: this.failed,
-         hidden: this.hidden,
-         state: this.state,
-         uuidv4: this.uuidv4
-      }));
-   }
-
-   /**
-    * Toggles the task state between completed, failed, incomplete.
-    */
-   toggle()
-   {
-      if (this.completed === false && this.failed === false)
-      {
-         this.completed = true;
-      }
-      else if (this.completed === true)
-      {
-         this.failed = true;
-         this.completed = false;
-      }
-      else
-      {
-         this.failed = false;
-      }
-   }
-
-   /**
-    * Toggles the hidden state.
-    *
-    * @returns {boolean} Current hidden state.
-    */
-   toggleVisible()
-   {
-      this.hidden = !this.hidden;
-
-      return this.hidden;
-   }
-}
-
-/**
- * @typedef {object} QuestData
- *
- * @property {string}            name - The quest name.
- *
- * @property {string}            status - The quest status; one of {@link questStatus}.
- *
- * @property {string|null}       giver - The Foundry UUID or 'abstract' for a custom source.
- *
- * @property {QuestImgNameData}  giverData - The Foundry image / name data looked up by UUID.
- *
- * @property {string}            description - The quest description.
- *
- * @property {string}            gmnotes - The GM Notes.
- *
- * @property {string}            image - `actor` or `token` for UUID based givers or the image link for custom source.
- *
- * @property {string}            giverName - The name of the quest giver.
- *
- * @property {string}            splash - The splash image.
- *
- * @property {string}            splashPos - The splash position (top, center, bottom).
- *
- * @property {boolean}           splashAsIcon - Use the splash image as the quest icon.
- *
- * @property {string|null}       location - Unused / future use for quest location.
- *
- * @property {string}            playernotes - The Player Notes.
- *
- * @property {number}            priority - Unused / future use for quest priority sorting.
- *
- * @property {string|null}       type - Unused / future use for sorting type of quest.
- *
- * @property {string|null}       parent - The parent quest ID.
- *
- * @property {string[]}          subquests - An array of quest IDs that are subquests.
- *
- * @property {QuestTaskData[]}   tasks - An array of tasks.
- *
- * @property {QuestRewardData[]} rewards - An array of rewards.
- *
- * @property {QuestDateData}     date - The create, end, start dates of the quest.
- */
-
-/**
- * @typedef QuestDateData
- *
- * @property {number|null} create - Time ms since 1970 / Date.now() when quest was created.
- *
- * @property {number|null} end - Time ms since 1970 / Date.now() when quest ended (status: failed / complete).
- *
- * @property {number|null} start - Time ms since 1970 / Date.now() when quest was started (status: active).
- */
-
-/**
- * @typedef QuestRewardData
- *
- * @property {string}   type - Reward type.
- *
- * @property {QuestRewardAddData}   data - Reward add data.
- *
- * @property {boolean}  hidden - Reward hidden.
- *
- * @property {boolean}  locked - Reward locked.
- *
- * @property {string}   uuidv4 - The FQL UUIDv4 / unique ID.
- */
-
-/**
- * @typedef QuestRewardAddData
- *
- * @property {string}            type - Reward type.
- *
- * @property {QuestImgNameData}  data - Reward image / name from {@link Enrich.giverFromUUID}.
- *
- * @property {boolean}           hidden - Reward hidden.
- */
-
-/**
- * @typedef QuestTaskData
- *
- * @property {string}   name - Task name.
- *
- * @property {boolean}  completed - Task completed.
- *
- * @property {boolean}  failed - Task failed.
- *
- * @property {boolean}  hidden - Task hidden.
- *
- * @property {string}   state - Task state.
- *
- * @property {string}   uuidv4 - The FQL UUIDv4 / unique ID.
- */
-

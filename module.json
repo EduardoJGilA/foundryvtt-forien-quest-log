@@ -18,9 +18,9 @@
   "changelog": "https://github.com/Forien/foundryvtt-forien-quest-log/releases/latest/",
   "version": "0.9.0",
   "compatibility": {
-    "minimum": "13",
-    "verified": "13",
-    "maximum": "13"
+    "minimum": "14",
+    "verified": "14",
+    "maximum": "14"
   },
   "esmodules": [
     "./src/init.js"

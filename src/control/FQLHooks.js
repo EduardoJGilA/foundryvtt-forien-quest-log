@@ -9,9 +9,9 @@ import {
 
 import { QuestAPI }     from './public/index.js';
 
-import { Quest }        from '../model/index.js';
+import { Quest, QuestPageDataModel } from '../model/index.js';
 
-import { QuestPreview } from '../view/index.js';
+import { QuestPreview, QuestPageSheet } from '../view/index.js';
 
 import { DBMigration }  from '../../database/DBMigration.js';
 
@@ -101,6 +101,14 @@ export class FQLHooks
    {
       if (typeof data !== 'object' || data?._fqlData?.type !== 'reward') { return; }
 
+      const quest = QuestDB.getQuest(data._fqlData.questId);
+      const reward = quest?.getReward(data._fqlData.uuidv4);
+      if (!reward || reward.locked || reward.hidden)
+      {
+         ui.notifications.warn(game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardLockedPlayer'));
+         return false;
+      }
+
       await Socket.questRewardDrop({
          actor: { id: actor.id, name: FVTTCompat.get(actor, 'name') },
          sheet: { id: sheet.id },
@@ -131,6 +139,16 @@ export class FQLHooks
    {
       // Set the sheet to render quests.
       Quest.setSheet(QuestPreview);
+
+      // Register custom JournalEntryPage type and sheet
+      Object.assign(CONFIG.JournalEntryPage.dataModels, {
+         "forien-quest-log.quest": QuestPageDataModel
+      });
+
+      DocumentSheets.registerSheet(JournalEntryPage, "forien-quest-log", QuestPageSheet, {
+         types: ["forien-quest-log.quest"],
+         makeDefault: true
+      });
 
       // Register FQL module settings.
       ModuleSettings.register();
