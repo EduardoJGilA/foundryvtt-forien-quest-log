@@ -493,22 +493,25 @@ export class FQLHooks
     */
    static renderJournalDirectory(app, html)
    {
-      const $html = $(html);
+      const element = html instanceof HTMLElement ? html : html?.[0];
+      if (!element) { return; }
 
       if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers))
       {
-         const button = $('<button class="quest-log-btn"></button>');
-         button.text(game.i18n.localize('ForienQuestLog.QuestLog.Title'));
+         const button = document.createElement('button');
+         button.classList.add('quest-log-btn');
+         button.innerText = game.i18n.localize('ForienQuestLog.QuestLog.Title');
 
-         let footer = $html.find('.directory-footer');
-         if (footer.length === 0)
+         let footer = element.querySelector('.directory-footer');
+         if (!footer)
          {
-            footer = $('<footer class="directory-footer"></footer>');
-            $html.append(footer);
+            footer = document.createElement('footer');
+            footer.classList.add('directory-footer');
+            element.append(footer);
          }
          footer.append(button);
 
-         button.on("click", () => ViewManager.questLog.render(true));
+         button.addEventListener('click', () => ViewManager.questLog.render(true));
       }
 
       if (!(game.user.isGM && game.settings.get(constants.moduleName, settings.showFolder)))
@@ -516,11 +519,8 @@ export class FQLHooks
          const folder = Utils.getQuestFolder();
          if (folder !== void 0)
          {
-            const element = $html.find(`.folder[data-folder-id="${folder.id}"]`);
-            if (element.length > 0)
-            {
-               element.remove();
-            }
+            const folderEl = element.querySelector(`.folder[data-folder-id="${folder.id}"]`);
+            if (folderEl) { folderEl.remove(); }
          }
       }
    }
@@ -537,10 +537,13 @@ export class FQLHooks
     */
    static renderJournalSheet(app, html)
    {
+      const element = html instanceof HTMLElement ? html : html?.[0];
+      if (!element) { return; }
+
       const folder = Utils.getQuestFolder();
       if (folder)
       {
-         const option = html.find(`option[value="${folder.id}"]`);
+         const option = element.querySelector(`option[value="${folder.id}"]`);
 
          if (option) { option.remove(); }
       }
