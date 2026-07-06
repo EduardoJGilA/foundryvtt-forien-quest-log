@@ -127,7 +127,7 @@
   ],
   "socket": true,
   "manifest": "https://raw.githubusercontent.com/EduardoJGilA/foundryvtt-forien-quest-log/refs/heads/master/module.json",
-  "download": "https://github.com/EduardoJGilA/foundryvtt-forien-quest-log/archive/refs/heads/master.zip",
+  "download": "https://codeload.github.com/EduardoJGilA/foundryvtt-forien-quest-log/zip/refs/heads/master",
   "protected": false,
   "coreTranslation": false,
   "library": false
