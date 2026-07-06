@@ -493,22 +493,22 @@ export class FQLHooks
     */
    static renderJournalDirectory(app, html)
    {
+      const $html = $(html);
+
       if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers))
       {
-         const button = document.createElement('button');
-         button.classList.add("quest-log-btn");
-         button.innerText = game.i18n.localize('ForienQuestLog.QuestLog.Title');
+         const button = $('<button class="quest-log-btn"></button>');
+         button.text(game.i18n.localize('ForienQuestLog.QuestLog.Title'));
 
-         let footer = html.querySelector('.directory-footer');
+         let footer = $html.find('.directory-footer');
          if (footer.length === 0)
          {
-            footer = document.createElement("footer");
-            footer.classList.add("directory-footer");
-            html.append(footer);
+            footer = $('<footer class="directory-footer"></footer>');
+            $html.append(footer);
          }
          footer.append(button);
 
-         button.addEventListener("click", () => ViewManager.questLog.render(true));
+         button.on("click", () => ViewManager.questLog.render(true));
       }
 
       if (!(game.user.isGM && game.settings.get(constants.moduleName, settings.showFolder)))
@@ -516,8 +516,8 @@ export class FQLHooks
          const folder = Utils.getQuestFolder();
          if (folder !== void 0)
          {
-            const element = html.querySelector(`.folder[data-folder-id="${folder.id}"]`);
-            if (element !== void 0)
+            const element = $html.find(`.folder[data-folder-id="${folder.id}"]`);
+            if (element.length > 0)
             {
                element.remove();
             }
