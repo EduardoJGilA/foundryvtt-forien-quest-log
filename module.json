@@ -126,8 +126,8 @@
     }
   ],
   "socket": true,
-  "manifest": "https://github.com/Forien/foundryvtt-forien-quest-log/releases/latest/download/module.json",
-  "download": "https://github.com/Forien/foundryvtt-forien-quest-log/releases/download/0.9.0/module.zip",
+  "manifest": "https://raw.githubusercontent.com/EduardoJGilA/foundryvtt-forien-quest-log/refs/heads/master/module.json",
+  "download": "https://github.com/EduardoJGilA/foundryvtt-forien-quest-log/archive/refs/heads/master.zip",
   "protected": false,
   "coreTranslation": false,
   "library": false
