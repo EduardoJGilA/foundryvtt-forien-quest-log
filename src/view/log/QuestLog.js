@@ -130,6 +130,13 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          fqlBookmarkItem.css('background-blend-mode', backBlendMode);
       }
 
+      // Wire tab navigation manually (AppV2 does not auto-bind this custom nav).
+      html.on(jquery.click, '.log-tabs .item[data-tab]', (event) =>
+      {
+         event.preventDefault();
+         this.changeTab(event.currentTarget.dataset.tab, 'primary');
+      });
+
       html.on(jquery.click, '.new-quest-btn', HandlerLog.questAdd);
       html.on(jquery.click, '.actions.quest-status i.delete', HandlerLog.questDelete);
       html.on(jquery.dragenter, (event) => event.preventDefault());

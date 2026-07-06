@@ -209,6 +209,13 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       super._onRender(context, options);
       const html = $(this.element);
 
+      // Wire tab navigation manually (AppV2 does not auto-bind this custom nav).
+      html.on(jquery.click, '.quest-tabs .item[data-tab]', (event) =>
+      {
+         event.preventDefault();
+         this.changeTab(event.currentTarget.dataset.tab, 'primary');
+      });
+
       // Callbacks for any user.
       html.on(jquery.click, '.quest-giver-name .open-actor-sheet', async (event) =>
        await HandlerDetails.questGiverShowActorSheet(event, this));
