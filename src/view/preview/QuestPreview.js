@@ -64,7 +64,18 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
          width: 1000,
          height: 640
       },
-      tabs: [{ navSelector: '.quest-tabs', contentSelector: '.quest-body', initial: 'details' }]
+   };
+
+   static TABS = {
+      primary: {
+         tabs: [
+            { id: 'details' },
+            { id: 'playernotes' },
+            { id: 'gmnotes' },
+            { id: 'management' }
+         ],
+         initial: 'details'
+      }
    };
 
    static PARTS = {
@@ -79,6 +90,14 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
    get id()
    {
       return `quest-${this.#quest.id}`;
+   }
+
+   /**
+    * Returns the window title with the quest name substituted.
+    */
+   get title()
+   {
+      return game.i18n.format('ForienQuestLog.QuestPreview.Title', { name: this.#quest.name });
    }
 
    /**

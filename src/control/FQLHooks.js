@@ -519,8 +519,8 @@ export class FQLHooks
          const folder = Utils.getQuestFolder();
          if (folder !== void 0)
          {
-            const folderEl = element.querySelector(`.folder[data-folder-id="${folder.id}"]`);
-            if (folderEl) { folderEl.remove(); }
+            const folderEl = element.querySelector(`[data-folder-id="${folder.id}"]`);
+            if (folderEl) { (folderEl.closest('li') ?? folderEl).remove(); }
          }
       }
    }
