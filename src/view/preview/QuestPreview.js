@@ -64,6 +64,13 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
          width: 1000,
          height: 640
       },
+      tabs: [
+         {
+            navSelector: '.quest-tabs',
+            contentSelector: '.quest-body',
+            initial: 'details'
+         }
+      ]
    };
 
    static TABS = {
