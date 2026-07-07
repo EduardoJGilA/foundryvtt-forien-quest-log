@@ -143,6 +143,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       {
          event.preventDefault();
          this.changeTab(event.currentTarget.dataset.tab, 'primary');
+         this.setPosition();
       });
 
       html.on(jquery.click, '.new-quest-btn', HandlerLog.questAdd);

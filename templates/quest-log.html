@@ -12,7 +12,7 @@
     <div class="tab available{{#if (eq activeTab 'available')}} active{{/if}}" data-group="primary" data-tab="available">
       {{> "modules/forien-quest-log/templates/partials/quest-log/tab.html" tab="available" quests=quests.available}}
     </div>
-    <div class="tab active{{#if (eq activeTab 'active')}} active{{/if}}" data-group="primary" data-tab="active">
+    <div class="tab active-status{{#if (eq activeTab 'active')}} active{{/if}}" data-group="primary" data-tab="active">
       {{> "modules/forien-quest-log/templates/partials/quest-log/tab.html" tab="active" quests=quests.active}}
     </div>
     <div class="tab completed{{#if (eq activeTab 'completed')}} active{{/if}}" data-group="primary" data-tab="completed">
