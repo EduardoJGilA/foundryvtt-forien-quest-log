@@ -54,7 +54,8 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          {
             navSelector: '.log-tabs',
             contentSelector: '.log-body',
-            initial: 'active'
+            initial: 'active',
+            group: 'primary'
          }
       ]
    };

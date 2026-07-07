@@ -18,7 +18,7 @@ export class QuestPageSheet extends DocumentSheetV2
          width: 1000,
          height: 640
       },
-      tabs: [{ navSelector: '.quest-tabs', contentSelector: '.quest-body', initial: 'details' }]
+      tabs: [{ navSelector: '.quest-tabs', contentSelector: '.quest-body', initial: 'details', group: 'primary' }]
    };
 
    static PARTS = {

@@ -68,7 +68,8 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
          {
             navSelector: '.quest-tabs',
             contentSelector: '.quest-body',
-            initial: 'details'
+            initial: 'details',
+            group: 'primary'
          }
       ]
    };
