@@ -5,7 +5,8 @@
   // Necessary to ensure the bookmark tabs show. See `QuestLog.setPosition` for the manual positioning necessary.
   // Some game systems and UI theming modules override `overflow`, so we must visible, but then handle very long
   // list of quests / `.table` below manually based on the Application / setPosition.
-  &.window-app .window-content {
+  &.window-app .window-content,
+  &.fql-appv2 .window-content {
     overflow: visible;
   }
 

@@ -82,3 +82,91 @@
     }
   }
 }
+
+// ApplicationV2 styling to ensure readability, rich dark aesthetics, and no transparency issues.
+.fql-appv2 {
+  background: rgba(30, 30, 35, 0.96) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+  border-radius: 8px !important;
+
+  .window-header {
+    background: rgba(20, 20, 25, 0.98) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+  }
+
+  .window-content {
+    background: transparent !important;
+    color: #e2e8f0 !important;
+    padding: 0 !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  p, span, li, a, div, label {
+    color: #e2e8f0;
+  }
+
+  input[type="text"] {
+    background: rgba(0, 0, 0, 0.3) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 4px !important;
+    &:focus {
+      border-color: $primary-color-accent !important;
+      box-shadow: 0 0 4px $primary-color-accent !important;
+    }
+  }
+
+  .editor {
+    background: rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 6px !important;
+    color: #f1f5f9 !important;
+  }
+
+  .quest-log .table ul li.drag-quest {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #fff !important;
+    &:hover {
+      background: rgba(255, 255, 255, 0.12) !important;
+      border-color: $primary-color-accent !important;
+    }
+  }
+
+  .quest-tasks ul li, .quest-rewards ul li {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 6px 10px !important;
+  }
+
+  .quest-description .description {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #f1f5f9 !important;
+  }
+  
+  nav.tabs {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    
+    .item {
+      color: #94a3b8 !important;
+      &:hover {
+        color: $primary-color-accent !important;
+      }
+      &.active {
+        color: #ffffff !important;
+        border-bottom: 2px solid $primary-color-accent;
+        padding-bottom: 2px;
+      }
+    }
+  }
+}
