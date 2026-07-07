@@ -217,6 +217,12 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       super._onRender(context, options);
       const html = $(this.element);
 
+      // Clean up previous event listeners to prevent duplicates on re-render
+      html.off(jquery.click);
+      html.off('dragstart');
+      html.off('dragenter');
+      html.off('drop');
+
       // Wire tab navigation manually (AppV2 does not auto-bind this custom nav).
       html.on(jquery.click, '.quest-tabs .item[data-tab]', (event) =>
       {

@@ -122,6 +122,8 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       super._onRender(context, options);
       const html = $(this.element);
 
+      html.off('.fql-log');
+
       const navStyle = game.settings.get(constants.moduleName, settings.navStyle);
       const dynamicBackground = game.settings.get(constants.moduleName, settings.dynamicBookmarkBackground);
       if ('bookmarks' === navStyle && dynamicBackground)
@@ -139,19 +141,19 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       }
 
       // Wire tab navigation manually (AppV2 does not auto-bind this custom nav).
-      html.on(jquery.click, '.log-tabs .item[data-tab]', (event) =>
+      html.on(`${jquery.click}.fql-log`, '.log-tabs .item[data-tab]', (event) =>
       {
          event.preventDefault();
          this.changeTab(event.currentTarget.dataset.tab, 'primary');
          this.setPosition();
       });
 
-      html.on(jquery.click, '.new-quest-btn', HandlerLog.questAdd);
-      html.on(jquery.click, '.actions.quest-status i.delete', HandlerLog.questDelete);
-      html.on(jquery.dragenter, (event) => event.preventDefault());
-      html.on(jquery.dragstart, '.drag-quest', void 0, HandlerLog.questDragStart);
-      html.on(jquery.click, '.open-quest', void 0, HandlerLog.questOpen);
-      html.on(jquery.click, '.actions.quest-status i.move', HandlerLog.questStatusSet);
+      html.on(`${jquery.click}.fql-log`, '.new-quest-btn', HandlerLog.questAdd);
+      html.on(`${jquery.click}.fql-log`, '.actions.quest-status i.delete', HandlerLog.questDelete);
+      html.on('dragenter.fql-log', (event) => event.preventDefault());
+      html.on('dragstart.fql-log', '.drag-quest', void 0, HandlerLog.questDragStart);
+      html.on(`${jquery.click}.fql-log`, '.open-quest', void 0, HandlerLog.questOpen);
+      html.on(`${jquery.click}.fql-log`, '.actions.quest-status i.move', HandlerLog.questStatusSet);
 
       this.#contextMenu(html);
    }
