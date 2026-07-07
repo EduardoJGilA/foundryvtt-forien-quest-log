@@ -16,7 +16,7 @@
   "readme": "https://github.com/EduardoJGilA/foundryvtt-forien-quest-log/blob/master/README.md",
   "bugs": "https://github.com/EduardoJGilA/foundryvtt-forien-quest-log/issues",
   "changelog": "https://github.com/Forien/foundryvtt-forien-quest-log/releases/latest/",
-  "version": "0.1.0",
+  "version": "0.1.01",
   "compatibility": {
     "minimum": "14",
     "verified": "14",
@@ -125,6 +125,11 @@
       "type": "Macro"
     }
   ],
+  "documentTypes": {
+    "JournalEntryPage": {
+      "quest": {}
+    }
+  },
   "socket": true,
   "manifest": "https://raw.githubusercontent.com/EduardoJGilA/foundryvtt-forien-quest-log/refs/heads/master/module.json",
   "download": "https://codeload.github.com/EduardoJGilA/foundryvtt-forien-quest-log/zip/refs/heads/master",
