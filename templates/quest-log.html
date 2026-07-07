@@ -1,28 +1,28 @@
 <div class="quest-log {{style}}">
   <nav class="log-tabs tabs {{style}}" data-group="primary">
-    <a class="item" data-group="primary" data-tab="available">{{localize 'ForienQuestLog.QuestTypes.Labels.Available'}}</a>
-    <a class="item" data-group="primary" data-tab="active">{{localize 'ForienQuestLog.QuestTypes.Labels.Active'}}</a>
-    <a class="item" data-group="primary" data-tab="completed">{{localize 'ForienQuestLog.QuestTypes.Labels.Completed'}}</a>
-    <a class="item" data-group="primary" data-tab="failed">{{localize 'ForienQuestLog.QuestTypes.Labels.Failed'}}</a>
+    <a class="item{{#if (eq activeTab 'available')}} active{{/if}}" data-group="primary" data-tab="available">{{localize 'ForienQuestLog.QuestTypes.Labels.Available'}}</a>
+    <a class="item{{#if (eq activeTab 'active')}} active{{/if}}" data-group="primary" data-tab="active">{{localize 'ForienQuestLog.QuestTypes.Labels.Active'}}</a>
+    <a class="item{{#if (eq activeTab 'completed')}} active{{/if}}" data-group="primary" data-tab="completed">{{localize 'ForienQuestLog.QuestTypes.Labels.Completed'}}</a>
+    <a class="item{{#if (eq activeTab 'failed')}} active{{/if}}" data-group="primary" data-tab="failed">{{localize 'ForienQuestLog.QuestTypes.Labels.Failed'}}</a>
     {{#if (or isGM isTrustedPlayerEdit)}}
-      <a class="item" data-group="primary" data-tab="inactive">{{localize 'ForienQuestLog.QuestTypes.Labels.InActive'}}</a>
+      <a class="item{{#if (eq activeTab 'inactive')}} active{{/if}}" data-group="primary" data-tab="inactive">{{localize 'ForienQuestLog.QuestTypes.Labels.InActive'}}</a>
     {{/if}}
   </nav>
   <section class="log-body {{style}}">
-    <div class="tab available" data-group="primary" data-tab="available">
+    <div class="tab available{{#if (eq activeTab 'available')}} active{{/if}}" data-group="primary" data-tab="available">
       {{> "modules/forien-quest-log/templates/partials/quest-log/tab.html" tab="available" quests=quests.available}}
     </div>
-    <div class="tab active" data-group="primary" data-tab="active">
+    <div class="tab active{{#if (eq activeTab 'active')}} active{{/if}}" data-group="primary" data-tab="active">
       {{> "modules/forien-quest-log/templates/partials/quest-log/tab.html" tab="active" quests=quests.active}}
     </div>
-    <div class="tab completed" data-group="primary" data-tab="completed">
+    <div class="tab completed{{#if (eq activeTab 'completed')}} active{{/if}}" data-group="primary" data-tab="completed">
       {{> "modules/forien-quest-log/templates/partials/quest-log/tab.html" tab="completed" quests=quests.completed}}
     </div>
-    <div class="tab failed" data-group="primary" data-tab="failed">
+    <div class="tab failed{{#if (eq activeTab 'failed')}} active{{/if}}" data-group="primary" data-tab="failed">
       {{> "modules/forien-quest-log/templates/partials/quest-log/tab.html" tab="failed" quests=quests.failed}}
     </div>
     {{#if (or isGM isTrustedPlayerEdit)}}
-      <div class="tab inactive" data-group="primary" data-tab="inactive">
+      <div class="tab inactive{{#if (eq activeTab 'inactive')}} active{{/if}}" data-group="primary" data-tab="inactive">
         {{> "modules/forien-quest-log/templates/partials/quest-log/tab.html" tab="inactive" quests=quests.inactive}}
       </div>
     {{/if}}

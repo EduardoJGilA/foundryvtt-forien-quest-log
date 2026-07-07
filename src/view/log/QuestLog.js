@@ -198,9 +198,11 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    /**
     * Retrieves context data.
     */
-   async _prepareContext(options)
+    async _prepareContext(options)
    {
       const context = await super._prepareContext(options);
+      const activeTab = this.tabGroups['primary'] || 'active';
+      this.tabGroups['primary'] = activeTab;
       return foundry.utils.mergeObject(context, {
          options,
          isGM: game.user.isGM,
@@ -211,7 +213,8 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          showTasks: game.settings.get(constants.moduleName, settings.showTasks),
          style: game.settings.get(constants.moduleName, settings.navStyle),
          questStatusI18n,
-         quests: QuestDB.sortCollect()
+         quests: QuestDB.sortCollect(),
+         activeTab
       });
    }
 

@@ -424,6 +424,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       const canEditPlayerNotes = this.#quest.canUserUpdate || game.users.activeGM !== null;
 
       const activeTab = this.tabGroups['primary'] || 'details';
+      this.tabGroups['primary'] = activeTab;
       if (!this.canEdit && activeTab !== 'details' && activeTab !== 'playernotes')
       {
          this.tabGroups['primary'] = 'details';
@@ -435,7 +436,8 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
          canAccept: this.canAccept,
          canEdit: this.canEdit,
          canEditPlayerNotes,
-         playerEdit: this.playerEdit
+         playerEdit: this.playerEdit,
+         activeTab: this.tabGroups['primary']
       };
 
       // Set window title dynamically

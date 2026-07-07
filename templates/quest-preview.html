@@ -1,12 +1,12 @@
 <form class="quest-preview">
   <nav class="quest-tabs tabs" data-group="primary">
-    <a class="item" data-group="primary" data-tab="details">{{localize 'ForienQuestLog.QuestPreview.Tabs.Details'}}</a>
-    <a class="item" data-group="primary" data-tab="playernotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.PlayerNotes'}}</a>
+    <a class="item{{#if (eq activeTab 'details')}} active{{/if}}" data-group="primary" data-tab="details">{{localize 'ForienQuestLog.QuestPreview.Tabs.Details'}}</a>
+    <a class="item{{#if (eq activeTab 'playernotes')}} active{{/if}}" data-group="primary" data-tab="playernotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.PlayerNotes'}}</a>
     {{#if canEdit}}
       {{#if isGM}}
-        <a class="item" data-group="primary" data-tab="gmnotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.GMNotes'}}</a>
+        <a class="item{{#if (eq activeTab 'gmnotes')}} active{{/if}}" data-group="primary" data-tab="gmnotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.GMNotes'}}</a>
       {{/if}}
-      <a class="item" data-group="primary" data-tab="management">{{localize 'ForienQuestLog.QuestPreview.Tabs.QuestManagement'}}</a>
+      <a class="item{{#if (eq activeTab 'management')}} active{{/if}}" data-group="primary" data-tab="management">{{localize 'ForienQuestLog.QuestPreview.Tabs.QuestManagement'}}</a>
       {{#if isActive}}
         {{#if isPrimary}}
           <a class="icon-button"><i class="is-primary fas fa-star pad-l-8" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.PrimaryQuestUnset'}}"></i></a>
@@ -24,20 +24,20 @@
   </nav>
 
   <section class="quest-body">
-    <div class="tab details" data-group="primary" data-tab="details">
+    <div class="tab details{{#if (eq activeTab 'details')}} active{{/if}}" data-group="primary" data-tab="details">
       {{> "modules/forien-quest-log/templates/partials/quest-preview/details.html"}}
     </div>
-    <div class="tab playernotes" data-group="primary" data-tab="playernotes">
+    <div class="tab playernotes{{#if (eq activeTab 'playernotes')}} active{{/if}}" data-group="primary" data-tab="playernotes">
       {{> "modules/forien-quest-log/templates/partials/quest-preview/playernotes.html"}}
     </div>
     {{#if canEdit}}
       {{#if isGM}}
-        <div class="tab gmnotes" data-group="primary" data-tab="gmnotes">
+        <div class="tab gmnotes{{#if (eq activeTab 'gmnotes')}} active{{/if}}" data-group="primary" data-tab="gmnotes">
           {{> "modules/forien-quest-log/templates/partials/quest-preview/gmnotes.html"}}
         </div>
       {{/if}}
       {{#if canEdit}}
-        <div class="tab management" data-group="primary" data-tab="management">
+        <div class="tab management{{#if (eq activeTab 'management')}} active{{/if}}" data-group="primary" data-tab="management">
           {{> "modules/forien-quest-log/templates/partials/quest-preview/management.html"}}
         </div>
       {{/if}}

@@ -36,6 +36,8 @@ export class QuestPageSheet extends DocumentSheetV2
       
       // Mapear los datos de la página de diario personalizada a los campos requeridos por el template.
       const systemData = this.document.system;
+      const activeTab = this.tabGroups['primary'] || 'details';
+      this.tabGroups['primary'] = activeTab;
       
       return foundry.utils.mergeObject(context, {
          isGM: game.user.isGM,
@@ -50,7 +52,8 @@ export class QuestPageSheet extends DocumentSheetV2
          playernotes: systemData.playernotes,
          tasks: systemData.tasks,
          rewards: systemData.rewards,
-         giverData: systemData.giverData
+         giverData: systemData.giverData,
+         activeTab
       });
    }
 }
