@@ -156,6 +156,8 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       html.on(`${jquery.click}.fql-log`, '.actions.quest-status i.move', HandlerLog.questStatusSet);
 
       this.#contextMenu(html);
+
+      this.setPosition();
    }
 
    /**
