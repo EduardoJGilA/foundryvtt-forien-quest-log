@@ -218,81 +218,81 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       const html = $(this.element);
 
       // Clean up previous event listeners to prevent duplicates on re-render
-      html.off(jquery.click);
-      html.off('dragstart');
-      html.off('dragenter');
-      html.off('drop');
+      html.off(`${jquery.click}.fql-preview`);
+      html.off(`${jquery.dragstart}.fql-preview`);
+      html.off(`${jquery.dragenter}.fql-preview`);
+      html.off(`${jquery.drop}.fql-preview`);
 
       // Wire tab navigation manually (AppV2 does not auto-bind this custom nav).
-      html.on(jquery.click, '.quest-tabs .item[data-tab]', (event) =>
+      html.on(`${jquery.click}.fql-preview`, '.quest-tabs .item[data-tab]', (event) =>
       {
          event.preventDefault();
          this.changeTab(event.currentTarget.dataset.tab, 'primary');
       });
 
       // Callbacks for any user.
-      html.on(jquery.click, '.quest-giver-name .open-actor-sheet', async (event) =>
+      html.on(`${jquery.click}.fql-preview`, '.quest-giver-name .open-actor-sheet', async (event) =>
        await HandlerDetails.questGiverShowActorSheet(event, this));
 
-      html.on(jquery.click, '.quest-name-link', (event) => HandlerAny.questOpen(event));
+      html.on(`${jquery.click}.fql-preview`, '.quest-name-link', (event) => HandlerAny.questOpen(event));
 
-      html.on(jquery.dragenter, (event) => event.preventDefault());
+      html.on(`${jquery.dragenter}.fql-preview`, (event) => event.preventDefault());
 
-      html.on(jquery.dragstart, '.item-reward .editable-container', async (event) =>
+      html.on(`${jquery.dragstart}.fql-preview`, '.item-reward .editable-container', async (event) =>
        await HandlerDetails.rewardDragStartItem(event, this.#quest));
 
-      html.on(jquery.dragstart, '.quest-rewards .fa-sort', (event) => HandlerDetails.rewardDragStartSort(event));
+      html.on(`${jquery.dragstart}.fql-preview`, '.quest-rewards .fa-sort', (event) => HandlerDetails.rewardDragStartSort(event));
 
-      html.on(jquery.click, '.abstract-reward .editable-container', async (event) =>
+      html.on(`${jquery.click}.fql-preview`, '.abstract-reward .editable-container', async (event) =>
        await HandlerDetails.rewardShowImagePopout(event, this.#quest, this));
 
-      html.on(jquery.click, '.actor-reward .editable-container', async (event) =>
+      html.on(`${jquery.click}.fql-preview`, '.actor-reward .editable-container', async (event) =>
        await HandlerDetails.rewardShowSheet(event, this.#quest, this));
 
-      html.on(jquery.click, '.item-reward .editable-container', async (event) =>
+      html.on(`${jquery.click}.fql-preview`, '.item-reward .editable-container', async (event) =>
        await HandlerDetails.rewardShowSheet(event, this.#quest, this));
 
-      html.on(jquery.click, '.splash-image-link', () => HandlerDetails.splashImagePopupShow(this.#quest, this));
+      html.on(`${jquery.click}.fql-preview`, '.splash-image-link', () => HandlerDetails.splashImagePopupShow(this.#quest, this));
 
-      html.on(jquery.dragstart, '.quest-tasks .fa-sort', (event) => HandlerDetails.taskDragStartSort(event));
+      html.on(`${jquery.dragstart}.fql-preview`, '.quest-tasks .fa-sort', (event) => HandlerDetails.taskDragStartSort(event));
 
       // Callbacks for GM, trusted player edit, and players with ownership
       if (this.canEdit || this.playerEdit)
       {
-         html.on(jquery.click, '.actions-single.quest-name .editable', (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions-single.quest-name .editable', (event) =>
           HandlerDetails.questEditName(event, this.#quest, this));
 
-         html.on(jquery.drop, '.quest-giver-gc', async (event) =>
+         html.on(`${jquery.drop}.fql-preview`, '.quest-giver-gc', async (event) =>
           await HandlerDetails.questGiverDropDocument(event, this.#quest, this));
 
-         html.on(jquery.click, '.quest-giver-gc .toggleImage', async () =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-giver-gc .toggleImage', async () =>
           await HandlerDetails.questGiverToggleImage(this.#quest, this));
 
-         html.on(jquery.click, '.quest-giver-gc .deleteQuestGiver', async () =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-giver-gc .deleteQuestGiver', async () =>
           await HandlerDetails.questGiverDelete(this.#quest, this));
 
-         html.on(jquery.click, '.quest-tasks .add-new-task',
+         html.on(`${jquery.click}.fql-preview`, '.quest-tasks .add-new-task',
           (event) => HandlerDetails.taskAdd(event, this.#quest, this));
 
-         html.on(jquery.click, '.actions.tasks .delete', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions.tasks .delete', async (event) =>
           await HandlerDetails.taskDelete(event, this.#quest, this));
 
-         html.on(jquery.drop, '.tasks-box', async (event) => await HandlerDetails.taskDropItem(event, this.#quest));
+         html.on(`${jquery.drop}.fql-preview`, '.tasks-box', async (event) => await HandlerDetails.taskDropItem(event, this.#quest));
 
-         html.on(jquery.click, '.actions.tasks .editable',
+         html.on(`${jquery.click}.fql-preview`, '.actions.tasks .editable',
           (event) => HandlerDetails.taskEditName(event, this.#quest, this));
 
-         html.on(jquery.click, 'li.task .toggleState', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, 'li.task .toggleState', async (event) =>
           await HandlerDetails.taskToggleState(event, this.#quest, this));
       }
 
       // Callbacks for GM, trusted player edit, or players who can accept quests.
       if (this.canEdit || this.canAccept)
       {
-         html.on(jquery.click, '.actions.quest-status i.delete', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions.quest-status i.delete', async (event) =>
           await HandlerAny.questDelete(event, this.#quest));
 
-         html.on(jquery.click, '.actions.quest-status i.move', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions.quest-status i.move', async (event) =>
           {
              await this.saveQuest({ refresh: false });
              await HandlerAny.questStatusSet(event);
@@ -302,64 +302,64 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       // Callbacks only for the GM and trusted player edit.
       if (this.canEdit)
       {
-         html.on(jquery.click, '.quest-giver-name .actions-single .editable', (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-giver-name .actions-single .editable', (event) =>
           HandlerDetails.questGiverCustomEditName(event, this.#quest, this));
 
-         html.on(jquery.click, '.quest-giver-gc .drop-info', () =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-giver-gc .drop-info', () =>
           HandlerDetails.questGiverCustomSelectImage(this.#quest, this));
 
-         html.on(jquery.click, '.quest-tabs .is-primary', () => Socket.setQuestPrimary({ quest: this.#quest }));
+         html.on(`${jquery.click}.fql-preview`, '.quest-tabs .is-primary', () => Socket.setQuestPrimary({ quest: this.#quest }));
 
-         html.on(jquery.click, '.quest-rewards .add-abstract', (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-rewards .add-abstract', (event) =>
           HandlerDetails.rewardAddAbstract(event, this.#quest, this));
 
-         html.on(jquery.click, '.actions.rewards .editable', (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions.rewards .editable', (event) =>
           HandlerDetails.rewardAbstractEditName(event, this.#quest, this));
 
-         html.on(jquery.click, '.actions.rewards .delete', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions.rewards .delete', async (event) =>
           await HandlerDetails.rewardDelete(event, this.#quest, this));
 
-         html.on(jquery.drop, '.rewards-box',
+         html.on(`${jquery.drop}.fql-preview`, '.rewards-box',
           async (event) => await HandlerDetails.rewardDropItem(event, this.#quest, this));
 
-         html.on(jquery.click, '.quest-rewards .hide-all-rewards', async () =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-rewards .hide-all-rewards', async () =>
           await HandlerDetails.rewardsHideAll(this.#quest, this));
 
-         html.on(jquery.click, '.quest-rewards .lock-all-rewards', async () =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-rewards .lock-all-rewards', async () =>
           await HandlerDetails.rewardsLockAll(this.#quest, this));
 
-         html.on(jquery.click, '.reward-image', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.reward-image', async (event) =>
           await HandlerDetails.rewardSelectImage(event, this.#quest, this));
 
-         html.on(jquery.click, '.quest-rewards .show-all-rewards', async () =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-rewards .show-all-rewards', async () =>
           await HandlerDetails.rewardsShowAll(this.#quest, this));
 
-         html.on(jquery.click, '.actions.rewards .toggleHidden', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions.rewards .toggleHidden', async (event) =>
           await HandlerDetails.rewardToggleHidden(event, this.#quest, this));
 
-         html.on(jquery.click, '.actions.rewards .toggleLocked', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions.rewards .toggleLocked', async (event) =>
           await HandlerDetails.rewardToggleLocked(event, this.#quest, this));
 
-         html.on(jquery.click, '.quest-rewards .unlock-all-rewards', async () =>
+         html.on(`${jquery.click}.fql-preview`, '.quest-rewards .unlock-all-rewards', async () =>
           await HandlerDetails.rewardsUnlockAll(this.#quest, this));
 
-         html.on(jquery.click, '.actions.tasks .toggleHidden', async (event) =>
+         html.on(`${jquery.click}.fql-preview`, '.actions.tasks .toggleHidden', async (event) =>
           await HandlerDetails.taskToggleHidden(event, this.#quest, this));
 
          // Management view callbacks
-         html.on(jquery.click, '.add-subquest-btn', async () => await HandlerManage.addSubquest(this.#quest, this));
+         html.on(`${jquery.click}.fql-preview`, '.add-subquest-btn', async () => await HandlerManage.addSubquest(this.#quest, this));
 
-         html.on(jquery.click, '.configure-perm-btn', () => HandlerManage.configurePermissions(this.#quest, this));
+         html.on(`${jquery.click}.fql-preview`, '.configure-perm-btn', () => HandlerManage.configurePermissions(this.#quest, this));
 
-         html.on(jquery.click, '.delete-splash', async () => await HandlerManage.deleteSplashImage(this.#quest, this));
+         html.on(`${jquery.click}.fql-preview`, '.delete-splash', async () => await HandlerManage.deleteSplashImage(this.#quest, this));
 
-         html.on(jquery.click, `.quest-splash #splash-as-icon-${this.#quest.id}`, async (event) =>
+         html.on(`${jquery.click}.fql-preview`, `.quest-splash #splash-as-icon-${this.#quest.id}`, async (event) =>
           await HandlerManage.setSplashAsIcon(event, this.#quest, this));
 
-         html.on(jquery.click, '.quest-splash .drop-info',
+         html.on(`${jquery.click}.fql-preview`, '.quest-splash .drop-info',
           async () => await HandlerManage.setSplashImage(this.#quest, this));
 
-         html.on(jquery.click, '.change-splash-pos', async () => await HandlerManage.setSplashPos(this.#quest, this));
+         html.on(`${jquery.click}.fql-preview`, '.change-splash-pos', async () => await HandlerManage.setSplashPos(this.#quest, this));
       }
    }
 

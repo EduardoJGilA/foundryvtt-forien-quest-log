@@ -5,3 +5,4 @@ node_modules/
 foundry.js
 package-lock.json
 .agents
+.claude

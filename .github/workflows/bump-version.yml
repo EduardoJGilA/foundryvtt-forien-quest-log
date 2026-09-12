@@ -1,0 +1,42 @@
+name: Bump Version
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'module.json'
+
+jobs:
+  bump:
+    if: "!contains(github.event.head_commit.message, 'chore: bump version')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump patch version in module.json
+        id: bump
+        run: |
+          NEW_VERSION=$(node -e "
+            const fs = require('fs');
+            const path = 'module.json';
+            const data = JSON.parse(fs.readFileSync(path, 'utf8'));
+            const parts = data.version.split('.').map((n) => parseInt(n, 10));
+            parts[parts.length - 1] += 1;
+            data.version = parts.join('.');
+            fs.writeFileSync(path, JSON.stringify(data, null, 2) + '\n');
+            console.log(data.version);
+          ")
+          echo "version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add module.json
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.version }}"
+          git push
