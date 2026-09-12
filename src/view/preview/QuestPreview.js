@@ -1,5 +1,4 @@
 import {
-   FVTTCompat,
    QuestDB,
    Socket,
    Utils }                    from '../../control/index.js';
@@ -236,6 +235,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 
       html.on(`${jquery.click}.fql-preview`, '.quest-name-link', (event) => HandlerAny.questOpen(event));
 
+      // `<prose-mirror>` dispatches a bubbling `change` event once its content is saved.
+      html.on('change.fql-preview', 'prose-mirror[name]', (event) => this.#onEditorChange(event.originalEvent ?? event));
+
       html.on(`${jquery.dragenter}.fql-preview`, (event) => event.preventDefault());
 
       html.on(`${jquery.dragstart}.fql-preview`, '.item-reward .editable-container', async (event) =>
@@ -467,23 +469,25 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
-    * When the editor is saved.
+    * Handles a `change` event dispatched by a `<prose-mirror>` element when its content is saved.
+    *
+    * @param {Event} event - The `change` event dispatched by the `<prose-mirror>` element.
+    *
+    * @returns {Promise<void>}
     */
-   async saveEditor(name)
+   async #onEditorChange(event)
    {
+      const name = event.target.name;
+      const value = event.target.value;
+
       if (name === 'playernotes' && !this.#quest.canUserUpdate && game.users.activeGM)
       {
-         const playernotes = FVTTCompat.getEditorContent(this.editors?.playernotes);
-
-         if (typeof playernotes === 'string')
-         {
-            Socket.savePlayerNotes({ quest: this.#quest, playernotes });
-         }
-
-         return super.saveEditor(name);
+         Socket.savePlayerNotes({ quest: this.#quest, playernotes: value });
+         return;
       }
 
-      return this.saveQuest();
+      this.#quest[name] = value;
+      await this.saveQuest();
    }
 
    /**
@@ -491,21 +495,6 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
     */
    async saveQuest({ refresh = true } = {})
    {
-      if (this.editors)
-      {
-         for (const key of Object.keys(this.editors))
-         {
-            const editor = this.editors[key];
-            const content = FVTTCompat.getEditorContent(editor);
-
-            if (content)
-            {
-               this.#quest.updateSource({ [key]: content });
-               await super.saveEditor(key);
-            }
-         }
-      }
-
       await this.#quest.save();
 
       return refresh ? this.refresh() : void 0;
