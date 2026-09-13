@@ -1238,7 +1238,7 @@ export class QuestDB
    static async #questEntryUpdate(questEntry, content, entry)
    {
       questEntry.quest.entry = entry;
-      questEntry.quest.updateSource(content);
+      questEntry.quest.initData(content);
       const status = questEntry.status;
       await this.#questEntryHydrate(questEntry);
 

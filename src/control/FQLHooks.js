@@ -9,9 +9,9 @@ import {
 
 import { QuestAPI }     from './public/index.js';
 
-import { Quest, QuestPageDataModel } from '../model/index.js';
+import { Quest }        from '../model/index.js';
 
-import { QuestPreview, QuestPageSheet } from '../view/index.js';
+import { QuestPreview } from '../view/index.js';
 
 import { DBMigration }  from '../../database/DBMigration.js';
 
@@ -139,16 +139,6 @@ export class FQLHooks
    {
       // Set the sheet to render quests.
       Quest.setSheet(QuestPreview);
-
-      // Register custom JournalEntryPage type and sheet
-      Object.assign(CONFIG.JournalEntryPage.dataModels, {
-         "forien-quest-log.quest": QuestPageDataModel
-      });
-
-      foundry.applications.apps.DocumentSheetConfig.registerSheet(JournalEntryPage, "forien-quest-log", QuestPageSheet, {
-         types: ["forien-quest-log.quest"],
-         makeDefault: true
-      });
 
       // Register FQL module settings.
       ModuleSettings.register();
