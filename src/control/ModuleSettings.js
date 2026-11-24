@@ -283,6 +283,15 @@ export class ModuleSettings
          }
       });
 
+      game.settings.register(constants.moduleName, settings.autoPayPrompt, {
+         name: 'ForienQuestLog.Settings.autoPayPrompt.Enable',
+         hint: 'ForienQuestLog.Settings.autoPayPrompt.EnableHint',
+         scope: this.#scope.world,
+         config: true,
+         default: true,
+         type: Boolean
+      });
+
       game.settings.register(constants.moduleName, settings.notifyRewardDrop, {
          name: 'ForienQuestLog.Settings.notifyRewardDrop.Enable',
          hint: 'ForienQuestLog.Settings.notifyRewardDrop.EnableHint',

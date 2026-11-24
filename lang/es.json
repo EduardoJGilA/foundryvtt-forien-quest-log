@@ -91,7 +91,9 @@
         "RewardHide": "Ocultar",
         "RewardLock": "Bloquear",
         "RewardShow": "Mostrar",
-        "RewardUnlock": "Desbloquear"
+        "RewardUnlock": "Desbloquear",
+        "RewardCoin": "Moneda",
+        "RewardPay": "Pagar"
       },
       "Labels": {
         "CustomSource": "Fuente Personalizada",
@@ -148,7 +150,9 @@
         "TaskVisible": "La tarea está visible. Haz clic para ocultar.",
         "ToggleImage": "Alternar entre imagen de token o actor.",
         "UnlockAll": "Desbloquear Todo",
-        "ViewSplashArt": "Ver imagen de portada."
+        "ViewSplashArt": "Ver imagen de portada.",
+        "AddCoin": "Añadir una recompensa en monedas",
+        "PayRewards": "Pagar las recompensas de monedas y objetos al grupo"
       }
     },
     "QuestTracker": {
@@ -244,6 +248,10 @@
       "trustedPlayerEdit": {
         "Enable": "Permitir la edición de misiones de jugadores de confianza",
         "EnableHint": "Marcar para permitir que los jugadores de confianza tengan capacidades ampliadas de edición de misiones y control de estado sobre las misiones de las que son propietarios."
+      },
+      "autoPayPrompt": {
+        "Enable": "Preguntar para pagar al completar una misión",
+        "EnableHint": "El GM ve un diálogo para pagar las recompensas de monedas y objetos cuando una misión se marca como completada."
       }
     },
     "Tooltips": {
@@ -251,6 +259,37 @@
       "Edit": "Editar",
       "HiddenQuestNoPlayers": "Esta misión está oculta a todos los jugadores.",
       "PrimaryQuest": "Misión Principal"
+    },
+    "Payout": {
+      "Gold": "po",
+      "Silver": "pl",
+      "Copper": "pc",
+      "Group": "grupo",
+      "Each": "cada uno",
+      "NoRecipients": "No hay destinatarios seleccionados.",
+      "NoParty": "Ningún jugador tiene personaje asignado.",
+      "ChatTitle": "Recompensa: {name}",
+      "DialogTitle": "Pagar recompensa",
+      "Pay": "Pagar",
+      "Paid": "Recompensas pagadas.",
+      "Hidden": "oculta",
+      "Other": "Sin pago automático:",
+      "Split": "Reparten:",
+      "Coins": "Monedas:",
+      "Items": "Objetos:",
+      "IncludeHidden": "Incluir recompensas ocultas",
+      "Amount": "Cantidad",
+      "CoinType": "Moneda",
+      "SplitMode": "Reparto",
+      "CoinDialogTitle": "Recompensa en monedas",
+      "Save": "Guardar",
+      "Coin": {
+        "pp": "pt",
+        "gp": "po",
+        "ep": "pe",
+        "sp": "pl",
+        "cp": "pc"
+      }
     }
   }
 }

@@ -85,6 +85,7 @@ const settings = {
    allowPlayersAccept: 'allowPlayersAccept',
    allowPlayersCreate: 'allowPlayersCreate',
    allowPlayersDrag: 'allowPlayersDrag',
+   autoPayPrompt: 'autoPayPrompt',
    countHidden: 'countHidden',
    defaultAbstractRewardImage: 'defaultAbstractRewardImage',
    defaultPermission: 'defaultPermission',
@@ -133,6 +134,7 @@ export { constants, jquery, questStatus, questStatusI18n, questTabIndex, session
  * @property {string}   allowPlayersCreate - Allow players to create quests.
  *
  * @property {string}   allowPlayersDrag - Allow players to drag reward items to actor sheet.
+ * @property {string}   autoPayPrompt - Ask the GM to pay coin / item rewards when a quest is completed.
  *
  * @property {string}   countHidden - Count hidden objectives / subquests.
  *

@@ -1,5 +1,6 @@
 import {
    QuestDB,
+   RewardPayout,
    Utils }           from '../index.js';
 
 import { DOMPurify } from '../../../external/index.js';
@@ -330,8 +331,12 @@ export class Enrich
          // For item rewards make them links when `can player drag` is not enabled.
          const itemLink = type === 'item' && !canEdit && !canPlayerDrag && !item.locked;
 
+         // Coin rewards read "120 po · grupo" from their amount / coin / each data.
+         const coinName = type === 'coin' ?
+          RewardPayout.label(item.data.amount, item.data.coin, item.data.each) : void 0;
+
          return {
-            name: await TextEditor.enrichHTML(DOMPurify.sanitize(item.data.name), { async: true }),
+            name: await TextEditor.enrichHTML(DOMPurify.sanitize(coinName ?? item.data.name), { async: true }),
             img: item.data.img,
             type,
             hidden: item.hidden,
@@ -353,6 +358,9 @@ export class Enrich
       }
 
       data.hasObjectives = data.data_tasks.length + data.data_subquest.length > 0;
+
+      // GMs get a pay button when the quest has coin / item rewards.
+      data.canPay = canEdit && RewardPayout.hasPayables(quest);
 
       // Determine if all rewards are visible / unlocked
       data.allRewardsVisible = true;

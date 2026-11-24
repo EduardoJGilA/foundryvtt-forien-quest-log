@@ -465,6 +465,15 @@ export class QuestPreview extends foundry.appv1.api.FormApplication
 
          html.on(jquery.click, '.quest-tabs .is-primary', () => Socket.setQuestPrimary({ quest: this.#quest }));
 
+         html.on(jquery.click, '.quest-rewards .add-coin', async () =>
+          await HandlerDetails.rewardAddCoin(this.#quest, this));
+
+         html.on(jquery.click, '.actions.rewards .edit-coin', async (event) =>
+          await HandlerDetails.rewardEditCoin(event, this.#quest, this));
+
+         html.on(jquery.click, '.quest-rewards .pay-rewards', async () =>
+          await HandlerDetails.rewardsPay(this.#quest));
+
          html.on(jquery.click, '.quest-rewards .add-abstract', (event) =>
           HandlerDetails.rewardAddAbstract(event, this.#quest, this));
 

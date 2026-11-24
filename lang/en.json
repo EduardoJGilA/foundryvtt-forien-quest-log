@@ -105,7 +105,9 @@
         "RewardHide": "Hide",
         "RewardLock": "Lock",
         "RewardShow": "Show",
-        "RewardUnlock": "Unlock"
+        "RewardUnlock": "Unlock",
+        "RewardCoin": "Coin",
+        "RewardPay": "Pay"
       },
       "Labels": {
         "CustomSource": "Custom Source",
@@ -162,7 +164,9 @@
         "TaskVisible": "Objective is visible. Click to hide.",
         "ToggleImage": "Toggle Token/Actor image.",
         "UnlockAll": "Unlock All",
-        "ViewSplashArt": "View splash art."
+        "ViewSplashArt": "View splash art.",
+        "AddCoin": "Add a coin reward",
+        "PayRewards": "Pay coin and item rewards to the party"
       }
     },
     "QuestTracker": {
@@ -258,6 +262,10 @@
       "trustedPlayerEdit": {
         "Enable": "Allow Trusted Player Quest Editing",
         "EnableHint": "Check to allow trusted players to have expanded quest editing and status control capabilities over quests they have ownership."
+      },
+      "autoPayPrompt": {
+        "Enable": "Ask to pay rewards when a quest is completed",
+        "EnableHint": "The GM sees a dialog to pay coin and item rewards when a quest is marked completed."
       }
     },
     "Tooltips": {
@@ -265,6 +273,37 @@
       "Edit": "Edit",
       "HiddenQuestNoPlayers": "This Quest is hidden from all players.",
       "PrimaryQuest": "Primary Quest"
+    },
+    "Payout": {
+      "Gold": "gp",
+      "Silver": "sp",
+      "Copper": "cp",
+      "Group": "group",
+      "Each": "each",
+      "NoRecipients": "No recipients selected.",
+      "NoParty": "No player has an assigned character.",
+      "ChatTitle": "Reward: {name}",
+      "DialogTitle": "Pay reward",
+      "Pay": "Pay",
+      "Paid": "Rewards paid.",
+      "Hidden": "hidden",
+      "Other": "Not paid automatically:",
+      "Split": "Split between:",
+      "Coins": "Coin:",
+      "Items": "Items:",
+      "IncludeHidden": "Include hidden rewards",
+      "Amount": "Amount",
+      "CoinType": "Coin",
+      "SplitMode": "Split",
+      "CoinDialogTitle": "Coin reward",
+      "Save": "Save",
+      "Coin": {
+        "pp": "pp",
+        "gp": "gp",
+        "ep": "ep",
+        "sp": "sp",
+        "cp": "cp"
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 import {
    FoundryUIManager,
+   RewardPayout,
    FVTTCompat,
    ModuleSettings,
    QuestDB,
@@ -70,6 +71,7 @@ export class FQLHooks
 
       // Respond to Foundry in game hooks.
       Hooks.on('dropActorSheetData', FQLHooks.dropActorSheetData);
+      Hooks.on(QuestDB.hooks.updateQuestEntry, (questEntry) => RewardPayout.onQuestUpdate(questEntry));
       Hooks.on('dropCanvasData', FQLHooks.dropCanvasData);
       Hooks.on('getSceneControlButtons', FQLHooks.getSceneControlButtons);
       Hooks.on('hotbarDrop', FQLHooks.hotbarDrop);

@@ -180,7 +180,11 @@
               <button class="unlock-all-rewards" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.UnlockAll'}}"><i class="fas fa-unlock-alt"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardUnlock'}}</button>
             {{/if}}
           {{/if}}
+          <button class="add-coin" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.AddCoin'}}"><i class="fas fa-coins"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardCoin'}}</button>
           <button class="add-abstract" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.AddCustom'}}"><i class="fas fa-plus"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardCustom'}}</button>
+          {{#if canPay}}
+            <button class="pay-rewards" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.PayRewards'}}"><i class="fas fa-hand-holding-usd"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardPay'}}</button>
+          {{/if}}
         {{/if}}
       </header>
       <div class="quest-box rewards-box">
@@ -211,6 +215,8 @@
             {{#if ../canEdit}}
               {{#if (eq type 'abstract')}}
                 <i class="editable fas fa-pen" data-target="reward.name" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
+              {{else if (eq type 'coin')}}
+                <i class="edit-coin fas fa-pen" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
               {{else}}
                 <span class="spacer-edit"></span>
               {{/if}}

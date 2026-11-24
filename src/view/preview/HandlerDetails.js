@@ -1,4 +1,5 @@
 import {
+   RewardPayout,
    Socket,
    Utils }           from '../../control/index.js';
 
@@ -382,6 +383,66 @@ export class HandlerDetails
             return false;
          }
       });
+   }
+
+   /**
+    * Adds a coin reward (amount, coin and split mode) asked from the GM in a dialog. Coin rewards are paid by
+    * {@link RewardPayout}.
+    *
+    * @param {Quest}         quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}  questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async rewardAddCoin(quest, questPreview)
+   {
+      const coin = await RewardPayout.askCoin();
+      if (!coin) { return; }
+
+      quest.addReward({
+         type: 'Coin',
+         data: { ...coin, img: 'icons/commodities/currency/coins-assorted-mix-copper-silver-gold.webp' },
+         hidden: false
+      });
+      await questPreview.saveQuest();
+   }
+
+   /**
+    * Edits an existing coin reward.
+    *
+    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async rewardEditCoin(event, quest, questPreview)
+   {
+      const reward = quest.getReward($(event.target).data('uuidv4'));
+      if (!reward) { return; }
+
+      const coin = await RewardPayout.askCoin(reward.data);
+      if (!coin) { return; }
+
+      Object.assign(reward.data, coin);
+      await questPreview.saveQuest();
+   }
+
+   /**
+    * Opens the payment dialog for the quest's coin and item rewards.
+    *
+    * @param {Quest}  quest - The current quest.
+    *
+    * @returns {Promise<void>}
+    */
+   static async rewardsPay(quest)
+   {
+      // Allow a second payment when the GM asks for it explicitly.
+      await quest.entry?.unsetFlag(constants.moduleName, 'paid');
+      await RewardPayout.prompt(quest);
    }
 
    /**
